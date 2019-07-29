@@ -10,20 +10,22 @@ public class QueryHelper {
 	static DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 	static Query query = new Query("Student");
 	static PreparedQuery preparedQuery = datastore.prepare(query);
+	static Query queryLogin = new Query("Users");
+	static PreparedQuery preparedQueryLogin = datastore.prepare(queryLogin);
 
 	public static boolean updateQueryOperation(long updateId, String updateAge, String updateName) {
 		boolean invalidId = false;
-		
+
 		int check = 0;
 		for (Entity entity : preparedQuery.asIterable()) {
 			long getId = entity.getKey().getId();
 			if (updateId == getId) {
 				check = 1;
-				if(!updateName.equals(""))
-				entity.setProperty("Name", updateName);
-				if(!updateAge.equals("")) {
-				int updateAgeNumber=Integer.parseInt(updateAge);
-				entity.setProperty("Age", updateAgeNumber);
+				if (!updateName.equals(""))
+					entity.setProperty("Name", updateName);
+				if (!updateAge.equals("")) {
+					int updateAgeNumber = Integer.parseInt(updateAge);
+					entity.setProperty("Age", updateAgeNumber);
 				}
 				datastore.put(entity);
 				break;
@@ -42,7 +44,7 @@ public class QueryHelper {
 				break;
 			}
 		}
-		
+
 	}
 
 	public static boolean removeAllQuery() {
@@ -51,5 +53,17 @@ public class QueryHelper {
 			datastore.delete(entity.getKey());
 		}
 		return removeAll;
+	}
+
+	public static boolean checkUsername(String username) {
+		boolean usernamePresent = false;
+		for (Entity entity : preparedQueryLogin.asIterable()) {
+			String getUsername = (String) entity.getProperty("Username");
+			if (getUsername.equals(username)) {
+				usernamePresent = true;
+				break;
+			}
+		}
+		return usernamePresent;
 	}
 }
