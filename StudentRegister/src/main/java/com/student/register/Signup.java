@@ -47,7 +47,7 @@ public class Signup extends HttpServlet {
 		String email = request.getParameter("email");
 		String password = request.getParameter("password");
 		boolean usernamePresent = QueryHelper.checkUsername(username);
-		RequestDispatcher rd = request.getRequestDispatcher("/login.html");
+		RequestDispatcher rd = request.getRequestDispatcher("/signup.html");
 		PrintWriter out = response.getWriter();
 
 		if (usernamePresent == true) {
@@ -59,8 +59,10 @@ public class Signup extends HttpServlet {
 			if (invalidName == true) {
 				out.println("<font color=red>Enter Valid Name.</font>");
 				rd.include(request, response);
-			} else
-				rd.forward(request, response);
+			} else {
+				RequestDispatcher redirect = request.getRequestDispatcher("/login.html");
+				redirect.forward(request, response);
+			}
 		}
 	}
 

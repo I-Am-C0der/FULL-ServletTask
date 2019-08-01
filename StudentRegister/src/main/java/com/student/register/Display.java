@@ -44,7 +44,8 @@ public class Display extends HttpServlet {
 		print.println("<html><body>");
 		print.println("<h1 align=\"center\">Student Recordatastore</h1>");
 		print.println("<br><br><form method=\"get\" action=\"/home\">\r\n"
-				+ "    <button type=\"submit\">Back</button>\r\n" + "</form>");
+				+ "<button type=\"submit\">Home</button>&nbsp;&nbsp;&nbsp;&nbsp;" 
+				+ "<button type=\"submit\" formaction=\"/displayinfo.html\">Back</button>" + "</form>");
 
 		if (request.getParameter("display") == null) {
 			print.println("Choose a valid option.");

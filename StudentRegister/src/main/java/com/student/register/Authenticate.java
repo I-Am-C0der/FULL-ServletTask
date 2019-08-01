@@ -45,9 +45,11 @@ public class Authenticate implements Filter {
 
 		if (session != null) {
 			String username = (String) session.getAttribute("username");
-			String pass = (String) session.getAttribute("password");
+			String password = (String) session.getAttribute("password");
+			boolean correctCredentials = false;
+			correctCredentials=QueryHelper.checkCredentials(username, password);
 
-			if (username.equals("teacher") && pass.equals("1234"))
+			if (correctCredentials)
 				chain.doFilter(request, response);
 			else
 				res.sendRedirect("login.html");

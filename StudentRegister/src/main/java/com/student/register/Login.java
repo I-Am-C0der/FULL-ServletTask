@@ -11,12 +11,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.google.appengine.api.datastore.DatastoreService;
-import com.google.appengine.api.datastore.DatastoreServiceFactory;
-import com.google.appengine.api.datastore.Entity;
-import com.google.appengine.api.datastore.PreparedQuery;
-import com.google.appengine.api.datastore.Query;
-
 /**
  * Servlet implementation class Login
  */
@@ -51,14 +45,7 @@ public class Login extends HttpServlet {
 		boolean correctCredentials = false;
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
-		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-		Query query = new Query("Users");
-		PreparedQuery preparedQuery = datastore.prepare(query);
-		for (Entity entity : preparedQuery.asIterable()) {
-			if (entity.getProperty("Username").equals(username) && entity.getProperty("Password").equals(password)) {
-				correctCredentials = true;
-			}
-		}
+		correctCredentials=QueryHelper.checkCredentials(username, password);
 
 		if (correctCredentials) {
 			HttpSession session = request.getSession();

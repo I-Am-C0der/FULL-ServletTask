@@ -39,9 +39,9 @@ public class Register extends HttpServlet {
 		pw.println("<title>Student Corner</title>");
 		pw.println("</head><body>");
 		pw.println("<h2 align=\"center\">Add Student Details</h2><br><br>");
+		pw.println("<form><button type=\"submit\" formaction=\"/home\">Back</button></form><br><br>");
 
 		pw.println("<form action=\"register\" method=\"post\">" 
-						+ "<button type=\"submit\" formaction=\"/home\">Back</button><br><br><br>"
 						+ "Name: <input type=\"text\" name=\"name\" required/><br><br><br> "
 						+ "Age: &nbsp;&nbsp;&nbsp;<input type=\"number\" name=\"age\" required/><br><br><br> "
 						+ "<button type=\"submit\">Add Student</button></form>");

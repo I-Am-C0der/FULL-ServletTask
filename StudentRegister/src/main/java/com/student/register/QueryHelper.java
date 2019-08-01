@@ -66,4 +66,15 @@ public class QueryHelper {
 		}
 		return usernamePresent;
 	}
+	
+	public static boolean checkCredentials(String username, String password) {
+		boolean correctCredentials = false;
+		for (Entity entity : preparedQueryLogin.asIterable()) {
+			if (entity.getProperty("Username").equals(username) && entity.getProperty("Password").equals(password)) {
+				correctCredentials = true;
+			}
+		}
+		
+		return correctCredentials;
+	}
 }
