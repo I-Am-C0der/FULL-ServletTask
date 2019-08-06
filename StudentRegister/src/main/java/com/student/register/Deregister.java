@@ -3,6 +3,7 @@ package com.student.register;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -14,17 +15,20 @@ import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
+import com.google.appengine.api.datastore.Query.Filter;
+import com.google.appengine.api.datastore.Query.FilterOperator;
+import com.google.appengine.api.datastore.Query.FilterPredicate;
 
 /**
  * Servlet implementation class RemoveStudent
  */
-@WebServlet(name = "RemoveStudent", urlPatterns = { "/removeinfo" })
+@WebServlet(name = "RemoveStudent", urlPatterns = { "/deregister" })
 public class Deregister extends HttpServlet {
 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -57105462738487746L;
+	private static final long serialVersionUID = 8129071074428054144L;
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
@@ -40,18 +44,20 @@ public class Deregister extends HttpServlet {
 		boolean invalidName = false;
 		String removeName = request.getParameter("name");
 		invalidName = Helper.checkCharacter(removeName);
-		// Filter equalName = new FilterPredicate("Name", FilterOperator.EQUAL, name);
-		// query.setFilter(equalName);
+		Filter equalName = new FilterPredicate("Name", FilterOperator.EQUAL, removeName);
+		query.setFilter(equalName);
 		PreparedQuery preparedQuery1 = datastore.prepare(query);
 		boolean nameNotFound = true;
+		if (!invalidName && !removeName.equals("")) {
 		print.println("<html><head>");
 		print.println("<title>Student Corner</title>");
 		print.println("</head><body>");
+		print.print("<br><form align=\"right\" action=\"/logout\"> " 
+				+ "<button type=\"submit\">Logout</button></form>");
 		print.println("<h2 align=\"center\">Remove Student Details</h2><br><br>");
 		print.println("<form>\r\n");
-		print.println("<button type=\"submit\" formaction=\"home\">Back</button></form><br><br>");
-		print.println("<form method=\"post\" action=\"removeinfo\">\r\n");
-		if (invalidName == false) {
+		print.println("<button type=\"submit\" formaction=\"removeinfo\">Back</button></form><br><br>");
+		print.println("<form method=\"post\" action=\"deregister\">\r\n");
 
 			print.println("<table border=\"1\" align=\"center\"> ");
 			print.println("<col width=\"130\">");
@@ -66,7 +72,7 @@ public class Deregister extends HttpServlet {
 				if (name.equals(removeName)) {
 					nameNotFound = false;
 					print.println("<tr><td>");
-					print.print("<input type=\"radio\" name=\"remove\" value=\"" + id + "\">");
+					print.print("<input type=\"radio\" name=\"remove\" value=\"" + id + "\" required>");
 					print.println("</td><td>");
 					print.print(id);
 					print.println("</td><td>");
@@ -84,12 +90,16 @@ public class Deregister extends HttpServlet {
 			else
 				print.println("<button type=\"submit\">Remove Details</button>");
 
-		} else
-			print.println("Enter Valid Name");
+			print.println("</form");
 
-		print.println("</form");
+			print.println("</body></html>");
+		} else {
+			RequestDispatcher rd = request.getRequestDispatcher("/removeinfo");
+			print.println("<font color=red>Enter Valid Name.</font>");
+			rd.include(request, response);
+		}
 
-		print.println("</body></html>");
+	
 	}
 
 	/**
@@ -106,6 +116,8 @@ public class Deregister extends HttpServlet {
 		QueryHelper.removeByIdQuery(removeId);
 
 		pw.println("<html><body>");
+		pw.print("<br><form align=\"right\" action=\"/logout\"> " 
+				+ "<button type=\"submit\">Logout</button></form>");
 
 		pw.println("Desired Record is removed.");
 

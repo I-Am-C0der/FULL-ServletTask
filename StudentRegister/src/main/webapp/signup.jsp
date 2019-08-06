@@ -1,7 +1,9 @@
-<!DOCTYPE html>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<meta charset="ISO-8859-1">
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Student Corner</title>
 </head>
 <body>
@@ -11,7 +13,7 @@
 	<h2 align="center">Sign Up</h2>
 	<br>
 	<br>
-	<form align="center" action="signup" method="post">
+	<form align="center" action="signuppage" method="post">
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
 		Name: <input type="text" name="name" required /><br />
 		<br /> Username: <input type="text" name="username" required /><br />
@@ -20,7 +22,7 @@
 		<br />&nbsp; 
 		Password: <input type="password" name="password" required /><br />
 		<br /> <input type="submit" value="Sign Up" /> <br> <br>
-		Already have a Account? <a href="login.html">Log In </a>
+		Already have a Account? <a href="/">Log In </a>
 	</form>
 
 </body>

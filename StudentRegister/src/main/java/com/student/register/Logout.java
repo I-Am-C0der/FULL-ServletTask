@@ -16,9 +16,13 @@ import javax.servlet.http.HttpSession;
 		urlPatterns = {"/logout"}
 		)
 public class Logout extends HttpServlet {
-	private static final long serialVersionUID = 1L;
        
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -5612430466688803000L;
+
+	/**
      * @see HttpServlet#HttpServlet()
      */
     public Logout() {
@@ -34,7 +38,7 @@ public class Logout extends HttpServlet {
 		HttpSession session = request.getSession();
 		session.invalidate();
 		
-		response.sendRedirect("login.html");	}
+		response.sendRedirect("/");	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)

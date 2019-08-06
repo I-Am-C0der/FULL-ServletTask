@@ -1,9 +1,7 @@
 package com.student.register;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -14,7 +12,7 @@ import javax.servlet.http.HttpSession;
 /**
  * Servlet implementation class Login
  */
-@WebServlet(name = "Login", urlPatterns = { "/login" })
+@WebServlet(name = "Loginpage", urlPatterns = { "/loginpage" })
 public class Login extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -42,23 +40,13 @@ public class Login extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		boolean correctCredentials = false;
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
-		correctCredentials=QueryHelper.checkCredentials(username, password);
-
-		if (correctCredentials) {
 			HttpSession session = request.getSession();
 			session.setAttribute("username", username);
 			session.setAttribute("password", password);
 			response.sendRedirect("home");
-		} else {
-			RequestDispatcher rd = request.getRequestDispatcher("/login.html");
-			PrintWriter out = response.getWriter();
-			out.println("<font color=red>Either Username or Password is incorrect.</font>");
-			rd.include(request, response);
-
-		}
+		
 	}
 
 }

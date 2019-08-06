@@ -3,6 +3,7 @@ package com.student.register;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -22,7 +23,7 @@ import com.google.appengine.api.datastore.Query.SortDirection;
 /**
  * Servlet implementation class DisplayStudent
  */
-@WebServlet(name = "DisplayStudent", urlPatterns = { "/displayinfo" })
+@WebServlet(name = "DisplayStudent", urlPatterns = { "/display" })
 public class Display extends HttpServlet {
 
 	/**
@@ -39,18 +40,30 @@ public class Display extends HttpServlet {
 		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 		Query query = new Query("Student");
 		response.setContentType("text/html");
+		RequestDispatcher rd = request.getRequestDispatcher("/displayinfo");
 
 		PrintWriter print = response.getWriter();
-		print.println("<html><body>");
-		print.println("<h1 align=\"center\">Student Recordatastore</h1>");
-		print.println("<br><br><form method=\"get\" action=\"/home\">\r\n"
-				+ "<button type=\"submit\">Home</button>&nbsp;&nbsp;&nbsp;&nbsp;" 
-				+ "<button type=\"submit\" formaction=\"/displayinfo.html\">Back</button>" + "</form>");
-
+		String getName = request.getParameter("name");
+		boolean invalidDetails = Helper.checkCharacter(getName);
 		if (request.getParameter("display") == null) {
-			print.println("Choose a valid option.");
+			print.println("<font color=red>Choose a valid option.</font>");
+			rd.forward(request, response);
+
+		} else if (Integer.parseInt(request.getParameter("display")) == 2 && getName.equals("") || invalidDetails ) {
+			
+				print.println("<font color=red>Enter Valid Name.</font>");
+				rd.forward(request, response);
 
 		} else {
+
+			print.println("<html><body>");
+			print.print("<br><form align=\"right\" action=\"/logout\"> "
+					+ "<button type=\"submit\">Logout</button></form>");
+			print.println("<h1 align=\"center\">Student Record</h1>");
+			print.println("<br><br><form method=\"get\" action=\"/home\">\r\n"
+					+ "<button type=\"submit\">Home</button>&nbsp;&nbsp;&nbsp;&nbsp;"
+					+ "<button type=\"submit\" formaction=\"/displayinfo\">Back</button>" + "</form>");
+
 			int displayOption = Integer.parseInt(request.getParameter("display"));
 			switch (displayOption) {
 			case 3:
@@ -66,6 +79,31 @@ public class Display extends HttpServlet {
 					long id = entity.getKey().getId();
 					String name = entity.getProperty("Name").toString();
 					int age = Integer.parseInt(entity.getProperty("Age").toString());
+					print.println("<tr><td style=\"text-align:center\">");
+					print.print(id);
+					print.println("</td><td style=\"text-align:center\">");
+					print.print(name);
+					print.println("</td><td style=\"text-align:center\">");
+					print.print(age);
+					print.println("</td></tr> ");
+					print.println("<br>");
+				}
+				print.println("</table>");
+				break;
+			case 2:
+
+				print.println("<table border=\"1\" align=\"center\"> ");
+				print.println("<col width=\"130\">");
+				print.println("<col width=\"130\">");
+				print.println("<col width=\"130\">");
+				print.println("<tr>" + "<th>ID</th>" + "<th>Name</th> " + "<th>Age</th>" + "</tr>");
+				Filter equalName = new FilterPredicate("Name", FilterOperator.EQUAL, getName);
+				query.setFilter(equalName);
+				PreparedQuery preparedQuery1 = datastore.prepare(query);
+				for (Entity entity : preparedQuery1.asIterable()) {
+					long id = entity.getKey().getId();
+					String name = entity.getProperty("Name").toString();
+					int age = Integer.parseInt(entity.getProperty("Age").toString());
 					print.println("<tr><td>");
 					print.print(id);
 					print.println("</td><td>");
@@ -76,35 +114,6 @@ public class Display extends HttpServlet {
 					print.println("<br>");
 				}
 				print.println("</table>");
-				break;
-			case 2:
-				boolean invalidDetails = false;
-				String getName = request.getParameter("name");
-				invalidDetails = Helper.checkCharacter(getName);
-				if (!invalidDetails) {
-					print.println("<table border=\"1\" align=\"center\"> ");
-					print.println("<col width=\"130\">");
-					print.println("<col width=\"130\">");
-					print.println("<col width=\"130\">");
-					print.println("<tr>" + "<th>ID</th>" + "<th>Name</th> " + "<th>Age</th>" + "</tr>");
-					Filter equalName = new FilterPredicate("Name", FilterOperator.EQUAL, getName);
-					query.setFilter(equalName);
-					PreparedQuery preparedQuery1 = datastore.prepare(query);
-					for (Entity entity : preparedQuery1.asIterable()) {
-						long id = entity.getKey().getId();
-						String name = entity.getProperty("Name").toString();
-						int age = Integer.parseInt(entity.getProperty("Age").toString());
-						print.println("<tr><td>");
-						print.print(id);
-						print.println("</td><td>");
-						print.print(name);
-						print.println("</td><td>");
-						print.print(age);
-						print.println("</td></tr> ");
-						print.println("<br>");
-					}
-					print.println("</table>");
-				}
 
 				break;
 			case 1:
@@ -148,9 +157,8 @@ public class Display extends HttpServlet {
 				}
 
 			}
+			print.println("</body></html>");
 		}
-
-		print.println("</body></html>");
 
 		print.close();
 	}

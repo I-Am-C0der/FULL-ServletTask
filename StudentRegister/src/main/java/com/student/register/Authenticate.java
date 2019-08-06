@@ -49,13 +49,24 @@ public class Authenticate implements Filter {
 			boolean correctCredentials = false;
 			correctCredentials=QueryHelper.checkCredentials(username, password);
 
-			if (correctCredentials)
+			if (correctCredentials) {
+				if (req.getRequestURI().equals("/"))
+					res.sendRedirect("/home");
+				else
+					chain.doFilter(request, response);
+			} else {
+				if (req.getRequestURI().equals("/"))
+					chain.doFilter(request, response);
+				else
+					res.sendRedirect("/");
+			}
+
+		} else {
+			if (req.getRequestURI().equals("/"))
 				chain.doFilter(request, response);
 			else
-				res.sendRedirect("login.html");
-
-		} else
-			res.sendRedirect("login.html");
+				res.sendRedirect("/");
+		}
 	}
 
 	/**

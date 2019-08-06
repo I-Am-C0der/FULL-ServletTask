@@ -3,6 +3,7 @@ package com.student.register;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -18,7 +19,7 @@ import com.google.appengine.api.datastore.Query;
 /**
  * Servlet implementation class UpdateStudent
  */
-@WebServlet(name = "UpdateStudent", urlPatterns = { "/updateinfo" })
+@WebServlet(name = "UpdateStudent", urlPatterns = { "/modify" })
 public class Modify extends HttpServlet {
 
 	/**
@@ -43,18 +44,20 @@ public class Modify extends HttpServlet {
 		boolean invalidDetails = false;
 		String getName = request.getParameter("name");
 		invalidDetails = Helper.checkCharacter(getName);
-
 		boolean nameNotFound = true;
+		if (!invalidDetails && !getName.equals("")) {
 		print.println("<html><head>");
 		print.println("<title>Student Corner</title>");
 		print.println("</head><body>");
+		print.print(
+				"<br><form align=\"right\" action=\"/logout\"> " + "<button type=\"submit\">Logout</button></form>");
 		print.println("<h2 align=\"center\">Update Student Details</h2><br><br>");
 		print.println("<form>\r\n");
-		print.println("<button type=\"submit\" formaction=\"updateinfo.html\">Back</button></form><br>");
+		print.println("<button type=\"submit\" formaction=\"updateinfo\">Back</button></form><br>");
 
-		print.println("<form method=\"post\" action=\"updateinfo\">\r\n");
+		print.println("<form action=\"modify\" method=\"post\" >\r\n");
 
-		if (!invalidDetails) {
+		
 			print.println("<table border=\"1\" align=\"center\"> ");
 			print.println("<col width=\"130\">");
 			print.println("<col width=\"130\">");
@@ -86,15 +89,19 @@ public class Modify extends HttpServlet {
 			else {
 				print.println("Update Name: <input type=\"text\" name=\"name\" /><br><br><br> "
 						+ "Update Age:&nbsp;&nbsp;&nbsp; <input type=\"number\" name=\"age\"/><br><br><br>"
-						+ "<button type=\"submit\">Update Details</button></form>");
+						+ "<button type=\"submit\">Update Details</button>");
 
 			}
-		} else
-			print.println("Enter Valid Name");
+			print.println("</form");
 
-		print.println("</form");
+			print.println("</body></html>");
+		} else {
+			RequestDispatcher rd = request.getRequestDispatcher("/updateinfo");
+			print.println("<font color=red>Enter Valid Name.</font>");
+			rd.forward(request, response);
+		}
 
-		print.println("</body></html>");
+		
 
 	}
 
@@ -106,18 +113,19 @@ public class Modify extends HttpServlet {
 			throws ServletException, IOException {
 		PrintWriter pw = response.getWriter();
 		pw.println("<html><body>");
+		pw.print("<br><form align=\"right\" action=\"/logout\"> " + "<button type=\"submit\">Logout</button></form>");
 		pw.println("<br><br><form method=\"get\" action=\"/home\">\r\n"
 				+ "    <button type=\"submit\">Back</button>\r\n" + "</form>");
 		boolean invalidDetails = false;
-			long updateId = Long.parseLong(request.getParameter("update"));
+		long updateId = Long.parseLong(request.getParameter("update"));
 
-			String updateName = request.getParameter("name");
-			invalidDetails = Helper.checkCharacter(updateName);
-			if (!invalidDetails) {
-				String updateAge = request.getParameter("age");
+		String updateName = request.getParameter("name");
+		invalidDetails = Helper.checkCharacter(updateName);
+		if (!invalidDetails) {
+			String updateAge = request.getParameter("age");
 
-				invalidDetails = QueryHelper.updateQueryOperation(updateId, updateAge, updateName);
-			}
+			invalidDetails = QueryHelper.updateQueryOperation(updateId, updateAge, updateName);
+		}
 
 		if (!invalidDetails)
 			pw.println("The Desired Record is Updated.");
