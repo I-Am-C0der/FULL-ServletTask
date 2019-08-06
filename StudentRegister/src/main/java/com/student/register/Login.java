@@ -14,7 +14,11 @@ import javax.servlet.http.HttpSession;
  */
 @WebServlet(name = "Loginpage", urlPatterns = { "/loginpage" })
 public class Login extends HttpServlet {
-	private static final long serialVersionUID = 1L;
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7176765828608201320L;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
