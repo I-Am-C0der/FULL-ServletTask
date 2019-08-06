@@ -39,7 +39,7 @@ public class Home extends HttpServlet {
 				+ "<button type=\"submit\">Logout</button></form>");
 		print.println("<h1 align=\"center\">Student Corner</h1><br>");
 
-		print.println("<form align=\"center\" action=\"/register\">"
+		print.println("<form align=\"center\" action=\"/addinfo\">"
 				+ "<button type=\"submit\">Add Student</button></form><br>");
 
 		print.println("<form align=\"center\" action=\"/removeinfo\">"

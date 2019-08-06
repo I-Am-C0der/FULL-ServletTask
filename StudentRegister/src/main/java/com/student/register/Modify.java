@@ -70,13 +70,13 @@ public class Modify extends HttpServlet {
 				int age = Integer.parseInt(entity.getProperty("Age").toString());
 				if (name.equals(getName)) {
 					nameNotFound = false;
-					print.println("<tr><td>");
+					print.println("<tr><td style=\"text-align:center\">");
 					print.print("<input type=\"radio\" name=\"update\" value=\"" + id + "\" required/>");
-					print.println("</td><td>");
+					print.println("</td><td style=\"text-align:center\">");
 					print.print(id);
-					print.println("</td><td>");
+					print.println("</td><td style=\"text-align:center\">");
 					print.print(name);
-					print.println("</td><td>");
+					print.println("</td><td style=\"text-align:center\">");
 					print.print(age);
 					print.println("</td></tr> ");
 					print.println("<br>");
@@ -87,9 +87,9 @@ public class Modify extends HttpServlet {
 			if (nameNotFound)
 				print.println("<center>No Records Founds</center>");
 			else {
-				print.println("Update Name: <input type=\"text\" name=\"name\" /><br><br><br> "
+				print.println("<br><div align=\"center\">Update Name: <input type=\"text\" name=\"name\" /><br><br><br> "
 						+ "Update Age:&nbsp;&nbsp;&nbsp; <input type=\"number\" name=\"age\"/><br><br><br>"
-						+ "<button type=\"submit\">Update Details</button>");
+						+ "<button type=\"submit\">Update Details</button></div>");
 
 			}
 			print.println("</form");

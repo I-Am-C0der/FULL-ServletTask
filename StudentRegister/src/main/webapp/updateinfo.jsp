@@ -13,7 +13,7 @@
 	<br>
 <form><button type=submit formaction=/home>Back</button><br><br>
 </form>
-	<form action="modify" method="get">
+	<form action="modify" method="get" align="center">
 		Name: <input type="text" name="name" ><br> <br> 
 		<button type="submit">Get Details</button>
 		

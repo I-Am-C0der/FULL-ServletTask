@@ -12,7 +12,7 @@
 <h2 align="center">Remove Student Details</h2><br><br>
 <form><button type=submit formaction=/home>Back</button><br><br>
 </form>
-<form action="deregister" method="get">
+<form action="deregister" method="get" align="center">
 				 Name: <input type="text" name="name"><br><br><br>
 				 <button type=submit>Get Details</button></form>
 				 
