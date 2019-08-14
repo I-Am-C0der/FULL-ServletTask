@@ -47,7 +47,7 @@ public class Authenticate implements Filter {
 			String username = (String) session.getAttribute("username");
 			String password = (String) session.getAttribute("password");
 			boolean correctCredentials = false;
-			correctCredentials=QueryHelper.checkCredentials(username, password);
+			correctCredentials = QueryHelper.checkCredentials(username, password);
 
 			if (correctCredentials) {
 				if (req.getRequestURI().equals("/"))
@@ -55,6 +55,7 @@ public class Authenticate implements Filter {
 				else
 					chain.doFilter(request, response);
 			} else {
+
 				if (req.getRequestURI().equals("/"))
 					chain.doFilter(request, response);
 				else
@@ -62,6 +63,7 @@ public class Authenticate implements Filter {
 			}
 
 		} else {
+
 			if (req.getRequestURI().equals("/"))
 				chain.doFilter(request, response);
 			else

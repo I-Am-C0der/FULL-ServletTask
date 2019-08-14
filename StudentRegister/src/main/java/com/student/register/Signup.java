@@ -1,7 +1,6 @@
 package com.student.register;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -31,16 +30,16 @@ public class Signup extends HttpServlet {
 		String password = request.getParameter("password");
 		boolean usernamePresent = QueryHelper.checkUsername(username);
 		RequestDispatcher rd = request.getRequestDispatcher("/signup");
-		PrintWriter out = response.getWriter();
 
 		if (usernamePresent == true) {
-			out.println("<font color=red>Username Already Present</font>");
+			request.setAttribute("message1", "<font color=red>Username Already Present</font>");
 			rd.include(request, response);
 
 		} else {
 			invalidName = Helper.signUp(name, username, email, password);
 			if (invalidName == true) {
-				out.println("<font color=red>Enter Valid Name.</font>");
+				request.setAttribute("message2", "<font color=red>Enter Valid Name.</font>");
+
 				rd.include(request, response);
 			} else {
 				HttpSession session = request.getSession();

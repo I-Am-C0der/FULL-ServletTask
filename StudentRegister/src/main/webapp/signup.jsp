@@ -16,7 +16,9 @@
 	<form align="center" action="signuppage" method="post">
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
 		Name: <input type="text" name="name" required /><br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ${message2}
 		<br /> Username: <input type="text" name="username" required /><br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ${message1}
 		<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
 		Email: <input type="email" name="email" required /><br />
 		<br />&nbsp; 
