@@ -24,7 +24,7 @@
 		<br />&nbsp; 
 		Password: <input type="password" name="password" required /><br />
 		<br /> <input type="submit" value="Sign Up" /> <br> <br>
-		Already have a Account? <a href="/">Log In </a>
+		Already have a Account? <a href="/login">Log In </a>
 	</form>
 
 </body>

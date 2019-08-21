@@ -43,31 +43,37 @@ public class Authenticate implements Filter {
 		HttpServletResponse res = (HttpServletResponse) response;
 		HttpSession session = req.getSession(false);
 
-		if (session != null) {
-			String username = (String) session.getAttribute("username");
-			String password = (String) session.getAttribute("password");
-			boolean correctCredentials = false;
-			correctCredentials = QueryHelper.checkCredentials(username, password);
+		if (req.getRequestURI().startsWith("/_ah/") || req.getRequestURI().equals("/loginpage")
+				|| req.getRequestURI().equals("/signuppage"))
+			chain.doFilter(request, response);
+		else {
 
-			if (correctCredentials) {
-				if (req.getRequestURI().equals("/"))
-					res.sendRedirect("/home");
-				else
-					chain.doFilter(request, response);
+			if (session != null) {
+				String username = (String) session.getAttribute("username");
+				String password = (String) session.getAttribute("password");
+				boolean correctCredentials = false;
+				correctCredentials = QueryHelper.checkCredentials(username, password);
+
+				if (correctCredentials) {
+					if (req.getRequestURI().equals("/login") || req.getRequestURI().equals("/")
+							|| req.getRequestURI().equals("/signup"))
+						res.sendRedirect("/home");
+					else
+						chain.doFilter(request, response);
+				} else {
+					session.invalidate();
+					if (req.getRequestURI().equals("/login") || req.getRequestURI().equals("/signup"))
+						chain.doFilter(request, response);
+					else
+						res.sendRedirect("/login");
+				}
+
 			} else {
 
-				if (req.getRequestURI().equals("/"))
+				if (req.getRequestURI().equals("/login") || req.getRequestURI().equals("/signup"))
 					chain.doFilter(request, response);
-				else
-					res.sendRedirect("/");
+
 			}
-
-		} else {
-
-			if (req.getRequestURI().equals("/"))
-				chain.doFilter(request, response);
-			else
-				res.sendRedirect("/");
 		}
 	}
 

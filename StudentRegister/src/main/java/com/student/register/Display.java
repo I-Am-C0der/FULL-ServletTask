@@ -67,7 +67,6 @@ public class Display extends HttpServlet {
 			int displayOption = Integer.parseInt(request.getParameter("display"));
 			switch (displayOption) {
 			case 3:
-
 				print.println("<table border=\"1\" align=\"center\"> ");
 				print.println("<col width=\"130\">");
 				print.println("<col width=\"130\">");

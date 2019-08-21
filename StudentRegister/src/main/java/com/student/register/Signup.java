@@ -21,6 +21,13 @@ public class Signup extends HttpServlet {
 	 */
 	private static final long serialVersionUID = -1604815650889123978L;
 
+	@Override
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		resp.sendRedirect("home");
+
+	}
+
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		boolean invalidName = false;
